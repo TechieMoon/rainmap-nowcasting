@@ -1,0 +1,6 @@
+pixel_encoding: grayscale_0_255_to_0_1
+min_mm_per_hour: 0.0
+max_mm_per_hour: 50.0
+description: >
+  MVP placeholder mapping. Calibrate this range with real radar/rainfall data
+  before treating predictions as physical precipitation values.

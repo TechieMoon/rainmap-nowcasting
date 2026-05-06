@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Local data and model artifacts
+data/
+runs/
+models/
+outputs/*
+!outputs/.gitkeep
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Build artifacts
+build/
+dist/
+*.spec
+
+# Secrets and local config
+.env
+.env.*
+hf_token*
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

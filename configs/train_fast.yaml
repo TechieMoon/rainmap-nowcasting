@@ -1,0 +1,15 @@
+seed: 42
+train_dir: data/demo/train
+val_dir: data/demo/val
+output_dir: runs/demo
+input_frames: 6
+target_frames: 6
+image_size: [64, 64]
+batch_size: 4
+epochs: 1
+learning_rate: 0.001
+base_channels: 8
+num_workers: 0
+device: auto
+amp: true
+checkpoint_name: rainmap-nowcasting-demo.safetensors
