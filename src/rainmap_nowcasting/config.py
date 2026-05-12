@@ -25,6 +25,8 @@ class TrainConfig:
     amp: bool = True
     checkpoint_name: str = "rainmap-nowcasting-demo.safetensors"
     resume_from: Path | None = None
+    dataset_name: str = "custom-rainmap"
+    model_warning: str = "Not for operational weather forecasting unless validated on real local data."
 
 
 def read_yaml(path: str | Path) -> dict[str, Any]:
@@ -57,6 +59,10 @@ def read_train_config(path: str | Path) -> TrainConfig:
         amp=bool(data.get("amp", True)),
         checkpoint_name=str(data.get("checkpoint_name", "rainmap-nowcasting-demo.safetensors")),
         resume_from=Path(data["resume_from"]) if data.get("resume_from") else None,
+        dataset_name=str(data.get("dataset_name", "custom-rainmap")),
+        model_warning=str(
+            data.get("model_warning", "Not for operational weather forecasting unless validated on real local data.")
+        ),
     )
 
 

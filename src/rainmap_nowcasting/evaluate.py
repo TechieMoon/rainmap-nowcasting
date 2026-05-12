@@ -70,15 +70,9 @@ def evaluate_sequence(
     prediction_output = Path(output_dir) / "predictions"
     kwargs = {"device_name": device}
     if model_dir:
-        from .hf import ModelFiles
+        from .hf import model_files_from_dir
 
-        model_root = Path(model_dir)
-        kwargs["model_files"] = ModelFiles(
-            model_dir=model_root,
-            weights_path=model_root / "rainmap-nowcasting-demo.safetensors",
-            config_path=model_root / "model_config.json",
-            repo_id="local",
-        )
+        kwargs["model_files"] = model_files_from_dir(model_dir)
     predict_frames(temp_input, prediction_output, **kwargs)
 
     target_output = Path(output_dir) / "_benchmark_target"

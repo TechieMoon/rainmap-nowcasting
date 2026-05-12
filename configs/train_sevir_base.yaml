@@ -1,0 +1,17 @@
+seed: 42
+dataset_name: SEVIR VIL mini real-data base
+model_warning: Small SEVIR VIL subset benchmark model. Not for operational weather forecasting.
+train_dir: data/sevir_mini/base/train
+val_dir: data/sevir_mini/base/val
+output_dir: runs/sevir-base
+input_frames: 6
+target_frames: 6
+image_size: [64, 64]
+batch_size: 8
+epochs: 10
+learning_rate: 0.001
+base_channels: 8
+num_workers: 0
+device: auto
+amp: true
+checkpoint_name: rainmap-nowcasting-sevir-base.safetensors

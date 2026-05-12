@@ -21,6 +21,10 @@ evaluate with metrics that meteorology users recognize.
 The current model predicts 6 future grayscale frames from 6 input grayscale
 frames. For MVP evaluation, pixel intensity is normalized as `0..255 -> 0..1`.
 
+The first real-data smoke benchmark is documented in
+[Real-data smoke benchmark](REAL_DATA_RESULTS.md). It uses a small SEVIR VIL
+subset, a persistence baseline, a base model, and a fine-tuned model.
+
 Run a single-sequence benchmark:
 
 ```powershell
@@ -66,8 +70,8 @@ Spatial neighborhood metric:
 
 ## Recommended Research Track
 
-1. Establish synthetic smoke-test results with the existing demo data.
-2. Add an adapter for `fr-radar-rainfall` and train a real-data base model.
+1. Use the SEVIR mini workflow as a real-data smoke test.
+2. Add an adapter for `fr-radar-rainfall` and train a rain-accumulation base model.
 3. Evaluate the base model on held-out years/regions with MAE, RMSE, CSI, HSS,
    ETS, and FSS.
 4. Add local fine-tuning recipes for KMA or user-provided regional data.

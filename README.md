@@ -30,6 +30,7 @@ See:
 - [Benchmarks and evaluation](docs/BENCHMARKS.md)
 - [Fine-tuning guide](docs/FINE_TUNING.md)
 - [Differentiation and contribution](docs/CONTRIBUTION_CLAIMS.md)
+- [Real-data smoke benchmark](docs/REAL_DATA_RESULTS.md)
 
 ## Install
 
@@ -57,6 +58,21 @@ The generated structure is:
 data/demo/train/sequence_0000/frame_000.png
 data/demo/train/sequence_0000/frame_001.png
 data/demo/val/sequence_0000/frame_000.png
+```
+
+## Prepare Real SEVIR Data
+
+The first real-data workflow uses SEVIR VIL radar imagery from AWS Open Data and
+converts a small event subset into PNG sequences:
+
+```powershell
+python -m rainmap_nowcasting.prepare_sevir --output-dir data/sevir_mini --image-size 64 64
+```
+
+Run the full small real-data experiment:
+
+```powershell
+.\scripts\run_realdata_benchmark.ps1
 ```
 
 ## Train
@@ -123,6 +139,24 @@ weights and train on local regional data:
 python -m rainmap_nowcasting.train --config configs/fine_tune.yaml
 ```
 
+For the SEVIR real-data smoke benchmark:
+
+```powershell
+python -m rainmap_nowcasting.train --config configs/train_sevir_base.yaml
+python -m rainmap_nowcasting.train --config configs/fine_tune_sevir.yaml
+python -m rainmap_nowcasting.benchmark --sequences-dir data/sevir_mini/local/val --output-dir outputs/sevir_benchmark --model base=runs/sevir-base --model fine_tuned=runs/sevir-finetuned
+```
+
+Latest small-subset result:
+
+| Model | MAE | RMSE | CSI@0.3 | HSS@0.3 | ETS@0.3 | FSS@0.3/w15 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| persistence | 0.0406 | 0.0930 | 0.5944 | 0.7117 | 0.5524 | 0.9675 |
+| base | 0.0764 | 0.0983 | 0.6432 | 0.7520 | 0.6026 | 0.9605 |
+| fine_tuned | 0.0694 | 0.0888 | 0.6699 | 0.7747 | 0.6323 | 0.9727 |
+
+These are real-data smoke benchmark numbers, not operational forecasting claims.
+
 ## Local GUI
 
 ```powershell
@@ -146,6 +180,14 @@ Remove-Item Env:\HF_TOKEN
 
 The uploader creates or updates the public model repo and uploads the weights,
 model config, metrics, and model card.
+
+Upload the real-data SEVIR fine-tuned model with benchmark results:
+
+```powershell
+$env:HF_TOKEN = "hf_your_new_write_token"
+python -m rainmap_nowcasting.upload_hf --repo-id TechieMoon/rainmap-nowcasting --model-dir runs/sevir-finetuned --benchmark-json outputs/sevir_benchmark/benchmark_results.json
+Remove-Item Env:\HF_TOKEN
+```
 
 ## Build Windows Client
 

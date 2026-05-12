@@ -14,3 +14,16 @@ def test_hf_cache_detection_uses_expected_filenames(tmp_path: Path) -> None:
     files.weights_path.write_bytes(b"weights")
 
     assert has_model_files(repo_id=repo_id, cache_dir=tmp_path)
+
+
+def test_hf_cache_detection_uses_configured_weight_name(tmp_path: Path) -> None:
+    repo_id = "TechieMoon/rainmap-nowcasting"
+    files = get_cached_model_files(repo_id=repo_id, cache_dir=tmp_path)
+    files.model_dir.mkdir(parents=True)
+    files.config_path.write_text('{"weights": "custom.safetensors"}', encoding="utf-8")
+
+    assert not has_model_files(repo_id=repo_id, cache_dir=tmp_path)
+
+    (files.model_dir / "custom.safetensors").write_bytes(b"weights")
+
+    assert has_model_files(repo_id=repo_id, cache_dir=tmp_path)

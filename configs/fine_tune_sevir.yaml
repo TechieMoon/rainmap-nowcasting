@@ -1,0 +1,18 @@
+seed: 42
+dataset_name: SEVIR VIL mini local fine-tune
+model_warning: Small SEVIR VIL subset fine-tuned benchmark model. Not for operational weather forecasting.
+train_dir: data/sevir_mini/local/train
+val_dir: data/sevir_mini/local/val
+output_dir: runs/sevir-finetuned
+resume_from: runs/sevir-base/rainmap-nowcasting-sevir-base.safetensors
+input_frames: 6
+target_frames: 6
+image_size: [64, 64]
+batch_size: 8
+epochs: 5
+learning_rate: 0.0001
+base_channels: 8
+num_workers: 0
+device: auto
+amp: true
+checkpoint_name: rainmap-nowcasting-sevir-finetuned.safetensors

@@ -24,10 +24,13 @@ around rain-map nowcasting easier to reuse:
 - A benchmark CLI that lets users compare base and fine-tuned models.
 - Documentation that connects local datasets to public benchmark practice.
 - A path for regional users to adapt the model instead of starting from scratch.
+- A first real-data smoke benchmark on SEVIR VIL with persistence, base, and
+  fine-tuned model comparisons.
 
 ## Honest Limitations
 
-- The current public/demo weights are synthetic-data only.
+- The current real-data results use a small SEVIR VIL subset, not a large
+  multi-year operational benchmark.
 - The current model is deterministic and does not produce uncertainty estimates.
 - Pixel values are normalized grayscale intensities unless the user calibrates
   them to physical rainfall units.

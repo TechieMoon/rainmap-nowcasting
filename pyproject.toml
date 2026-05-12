@@ -13,6 +13,9 @@ authors = [
   { name = "TechieMoon" }
 ]
 dependencies = [
+  "aiohttp>=3.9",
+  "fsspec>=2023.5",
+  "h5py>=3.10",
   "huggingface-hub>=0.24",
   "numpy>=1.24",
   "pillow>=10.0",
@@ -29,8 +32,10 @@ all = ["PySide6>=6.7", "pytest>=8.0", "pyinstaller>=6.0"]
 
 [project.scripts]
 rainmap-client = "rainmap_nowcasting.client:main"
+rainmap-benchmark = "rainmap_nowcasting.benchmark:main"
 rainmap-evaluate = "rainmap_nowcasting.evaluate:main"
 rainmap-predict = "rainmap_nowcasting.predict:main"
+rainmap-prepare-sevir = "rainmap_nowcasting.prepare_sevir:main"
 rainmap-train = "rainmap_nowcasting.train:main"
 rainmap-synthetic = "rainmap_nowcasting.synthetic:main"
 rainmap-upload-hf = "rainmap_nowcasting.upload_hf:main"

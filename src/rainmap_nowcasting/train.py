@@ -126,8 +126,9 @@ def train(config: TrainConfig) -> dict[str, Any]:
             "description": "Linear placeholder scale for MVP demos; calibrate with real data before use.",
         },
         "weights": weights_path.name,
+        "dataset_name": config.dataset_name,
         "created_at": datetime.now(timezone.utc).isoformat(),
-        "warning": "Demo model only. Not for operational weather forecasting.",
+        "warning": config.model_warning,
     }
     write_json(config.output_dir / "model_config.json", model_config)
     metrics = {
@@ -137,7 +138,7 @@ def train(config: TrainConfig) -> dict[str, Any]:
         "val_samples": len(val_dataset),
         "history": history,
         "best_val_mse": min(item["val_mse"] for item in history),
-        "warning": "Synthetic demo data only.",
+        "warning": config.model_warning,
         "resume_from": str(config.resume_from) if config.resume_from else None,
     }
     write_json(config.output_dir / "training_metrics.json", metrics)
