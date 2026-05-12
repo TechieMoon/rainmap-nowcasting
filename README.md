@@ -13,6 +13,23 @@ not an operational weather forecasting model.
 - Output: 6 predicted future grayscale rain map images plus a GIF preview.
 - Encoding: pixel value `0..255` maps to rain intensity `0..1`.
 - Default model host: [TechieMoon/rainmap-nowcasting](https://huggingface.co/TechieMoon/rainmap-nowcasting).
+- Evaluation: MAE, RMSE, CSI, POD, FAR, HSS, ETS, F1, and FSS.
+
+## Why This Project Is Different
+
+- End-to-end open workflow: training, prediction, evaluation, GUI, and Hugging
+  Face model distribution are kept together.
+- General-to-local strategy: train a public base model, then fine-tune or
+  calibrate it for local radar/rainfall data.
+- Non-developer client: forecasters can use a local GUI instead of writing code.
+- Benchmark-friendly output: predictions can be evaluated with standard
+  precipitation-nowcasting metrics.
+
+See:
+
+- [Benchmarks and evaluation](docs/BENCHMARKS.md)
+- [Fine-tuning guide](docs/FINE_TUNING.md)
+- [Differentiation and contribution](docs/CONTRIBUTION_CLAIMS.md)
 
 ## Install
 
@@ -81,6 +98,29 @@ To use freshly trained local weights:
 
 ```powershell
 python -m rainmap_nowcasting.predict --input-dir samples/input --output-dir outputs --model-dir runs/demo
+```
+
+## Evaluate
+
+Run a one-sequence benchmark with a local model:
+
+```powershell
+python -m rainmap_nowcasting.evaluate --sequence-dir data/demo/val/sequence_0000 --model-dir runs/demo --output-dir outputs/benchmark --output-json outputs/benchmark/metrics.json --device cpu
+```
+
+Evaluate existing prediction and target folders:
+
+```powershell
+python -m rainmap_nowcasting.evaluate --prediction-dir outputs/demo --target-dir data/demo/val/sequence_0000 --thresholds 0.1 0.3 0.5 --fss-windows 5 15
+```
+
+## Fine-Tune
+
+After training or downloading a base model, point `resume_from` at the base
+weights and train on local regional data:
+
+```powershell
+python -m rainmap_nowcasting.train --config configs/fine_tune.yaml
 ```
 
 ## Local GUI

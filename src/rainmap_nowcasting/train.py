@@ -8,6 +8,7 @@ from typing import Any
 
 import torch
 from safetensors.torch import save_file
+from safetensors.torch import load_file
 from torch import nn
 from torch.utils.data import DataLoader
 
@@ -70,6 +71,10 @@ def train(config: TrainConfig) -> dict[str, Any]:
         target_frames=config.target_frames,
         base_channels=config.base_channels,
     ).to(device)
+    if config.resume_from:
+        state = load_file(str(config.resume_from), device=str(device))
+        model.load_state_dict(state)
+        print(f"Loaded checkpoint for fine-tuning: {config.resume_from}")
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate)
     loss_fn = nn.MSELoss()
     scaler = torch.amp.GradScaler("cuda", enabled=config.amp and device.type == "cuda")
@@ -133,6 +138,7 @@ def train(config: TrainConfig) -> dict[str, Any]:
         "history": history,
         "best_val_mse": min(item["val_mse"] for item in history),
         "warning": "Synthetic demo data only.",
+        "resume_from": str(config.resume_from) if config.resume_from else None,
     }
     write_json(config.output_dir / "training_metrics.json", metrics)
     return {"weights_path": str(weights_path), "model_config": model_config, "metrics": metrics}

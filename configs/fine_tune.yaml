@@ -1,0 +1,16 @@
+seed: 42
+train_dir: data/local/train
+val_dir: data/local/val
+output_dir: runs/finetune-local-v1
+resume_from: runs/demo/rainmap-nowcasting-demo.safetensors
+input_frames: 6
+target_frames: 6
+image_size: [128, 128]
+batch_size: 4
+epochs: 10
+learning_rate: 0.0001
+base_channels: 32
+num_workers: 0
+device: auto
+amp: true
+checkpoint_name: rainmap-nowcasting-finetuned.safetensors

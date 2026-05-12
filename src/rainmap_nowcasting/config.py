@@ -24,6 +24,7 @@ class TrainConfig:
     device: str = "auto"
     amp: bool = True
     checkpoint_name: str = "rainmap-nowcasting-demo.safetensors"
+    resume_from: Path | None = None
 
 
 def read_yaml(path: str | Path) -> dict[str, Any]:
@@ -55,6 +56,7 @@ def read_train_config(path: str | Path) -> TrainConfig:
         device=str(data.get("device", "auto")),
         amp=bool(data.get("amp", True)),
         checkpoint_name=str(data.get("checkpoint_name", "rainmap-nowcasting-demo.safetensors")),
+        resume_from=Path(data["resume_from"]) if data.get("resume_from") else None,
     )
 
 
